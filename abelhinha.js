@@ -4,7 +4,7 @@ const ALTURA_ABELHA = 11;
 let abelhinhas = [];
 
 
-// função que cria uma abelhinha
+/* Cria uma abelhinha */
 function Abelhinha(tempoAtrasoParaIniciar) {
   this.el = document.createElement('img');
   this.el.src = 'imgs/abelha-voadora.gif';
@@ -26,23 +26,21 @@ Abelhinha.prototype.remove = function() {
 Abelhinha.prototype.posiciona = function(tempoAtrasoParaIniciar) {
   this.porcentagemTrajeto = 0;
   
-  // qual posição x inicial e final da abelha
-  // sempre surgem da esquerda e vão para a direita
+  /* abelha sempre surgem da esquerda e vão para a direita */
   this.xInicial = 0 - LARGURA_ABELHA;
   this.xFinal = window.innerWidth;
 
-  // qual posição y inicial e final da abelha
-  // elas podem surgir em qualquer ponto y (considerando altura da janela)
+  /* as abelhas podem surgir em qualquer ponto y (considerando altura da janela) */
   const UM_QUARTO_DA_ALTURA_DA_JANELA = window.innerHeight / 4;
   this.yInicial = Math.random() * (UM_QUARTO_DA_ALTURA_DA_JANELA - ALTURA_ABELHA);
   this.yFinal = Math.random() * (UM_QUARTO_DA_ALTURA_DA_JANELA - ALTURA_ABELHA);
   this.el.style.transform = `translate(${this.xInicial}px, ${this.yInicial}px)`;
 
-  // duração da animação: de 3s até 6s (aleatório) 
+  /* duração da animação: de 3s até 6s (aleatório) */
   this.tempoTrajeto = 3000 + Math.random() * 3000;
 
-  // tempo que a abelha vai esperar até surgir (especificado no parâmetro ou algo enre 0s e 7s)
-  this.tempoAtrasoParaIniciar = tempoAtrasoParaIniciar || Math.random() * 7000;
+  /* tempo que a abelha vai esperar até surgir (especificado no parâmetro ou algo enre 0s e 5s) */
+  this.tempoAtrasoParaIniciar = tempoAtrasoParaIniciar || Math.random() * 5000;
 };
 
 Abelhinha.prototype.atualiza = function(delta) {
@@ -56,8 +54,7 @@ Abelhinha.prototype.atualiza = function(delta) {
   this.y = Math.max(this.y, 0);
   this.el.style.transform = `translate(${this.x}px, ${this.y}px)`;
 
-  // se concluiu o trajeta (esquerda para direita e saiu da tela),
-  // reposiciona a abelha à esquerda e com um novo Y aleatório
+  /* se concluiu o trajeta (esquerda para direita e saiu da tela), reposiciona a abelha à esquerda e com um novo Y aleatório*/
   if (this.porcentagemTrajeto >= 1) {
     this.posiciona();
   }
@@ -77,8 +74,8 @@ function atualizaAbelhinhas(agora) {
 atualizaAbelhinhas(0);
 
 
-// se pressionar '+' ou '-', adiciona nova ou remove uma
-// abelha existente :P
+/* Ao pressionar '+' ou '-', adiciona nova ou remove uma abelha existente */
+
 document.addEventListener('keyup', function(e) {
   if (e.key === '+' || e.key === '=') {
     let novaAbelhinha = new Abelhinha(1);
@@ -92,6 +89,8 @@ document.addEventListener('keyup', function(e) {
 });
 
 document.body.style.overflowX = 'hidden';
+abelhinhas.push(new Abelhinha());
+abelhinhas.push(new Abelhinha());
 abelhinhas.push(new Abelhinha());
 abelhinhas.push(new Abelhinha());
 abelhinhas.push(new Abelhinha());
